@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-converter',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, HttpClientModule],
   template: `
     <div class="container">
       <h1>Currency Exchange Calculator</h1>
@@ -18,7 +19,6 @@ import { CommonModule } from '@angular/common';
           class="form-control" 
           [(ngModel)]="amount" 
           (ngModelChange)="calculateExchange()"
-          style="width: 200px; height: 35px; font-size: 18px;"
         >
       </div>
 
@@ -29,9 +29,8 @@ import { CommonModule } from '@angular/common';
           class="form-control" 
           [(ngModel)]="fromCurrency"
           (ngModelChange)="calculateExchange()"
-          style="width: 200px; height: 35px; font-size: 18px;"
         >
-          <option *ngFor="let currency of currencies" [value]="currency">
+          <option *ngFor="let currency of ['USD']" [value]="currency">
             {{currency}}
           </option>
         </select>
@@ -44,7 +43,6 @@ import { CommonModule } from '@angular/common';
           class="form-control" 
           [(ngModel)]="toCurrency"
           (ngModelChange)="calculateExchange()"
-          style="width: 200px; height: 35px; font-size: 18px;"
         >
           <option *ngFor="let currency of currencies" [value]="currency">
             {{currency}}
@@ -59,7 +57,7 @@ import { CommonModule } from '@angular/common';
     </div>
   `
 })
-export class ConverterComponent {
+export class ConverterComponent implements OnInit {
   amount: number = 1;
   fromCurrency: string = 'USD';
   toCurrency: string = 'EUR';
@@ -73,14 +71,49 @@ export class ConverterComponent {
     AUD: 1.35,
     CAD: 1.25
   };
-
   currencies = Object.keys(this.rates);
+
+  constructor(private httpClient: HttpClient) {}
+
+  ngOnInit(): void {
+    this.httpClient.get("https://v6.exchangerate-api.com/v6/16920bd1391942c22c16cc46/pair/USD/EUR").subscribe((res: any) => {
+      console.log(res.conversion_rate);
+      this.rates['EUR'] = res.conversion_rate;
+    });
+    this.httpClient.get("https://v6.exchangerate-api.com/v6/16920bd1391942c22c16cc46/pair/USD/GBP").subscribe((res: any) => {
+      console.log(res.conversion_rate);
+      this.rates['GBP'] = res.conversion_rate;
+    })
+    this.httpClient.get("https://v6.exchangerate-api.com/v6/16920bd1391942c22c16cc46/pair/USD/JPY").subscribe((res: any) => {
+      console.log(res.conversion_rate);
+      this.rates['JPY'] = res.conversion_rate;
+    })
+    this.httpClient.get("https://v6.exchangerate-api.com/v6/16920bd1391942c22c16cc46/pair/USD/AUD").subscribe((res: any) => {
+      console.log(res.conversion_rate);
+      this.rates['AUD'] = res.conversion_rate;
+    })
+    this.httpClient.get("https://v6.exchangerate-api.com/v6/16920bd1391942c22c16cc46/pair/USD/CAD").subscribe((res: any) => {
+      console.log(res.conversion_rate);
+      this.rates['CAD'] = res.conversion_rate;
+    })
+  }
+
 
   calculateExchange() {
     if (this.amount && this.fromCurrency && this.toCurrency) {
       const fromRate = this.rates[this.fromCurrency];
       const toRate = this.rates[this.toCurrency];
-      this.result = +(this.amount * (toRate / fromRate)).toFixed(2);
+      const conversionRate = toRate / fromRate;
+      this.result = +(this.amount * conversionRate).toFixed(2);
+    } else {
+      this.result = null;
     }
   }
+
+  
+  getExchangeRate(): string {
+    const fromRate = this.rates[this.fromCurrency];
+    const toRate = this.rates[this.toCurrency];
+    return (toRate / fromRate).toFixed(4);
+  }
 }
