@@ -1,1 +1,42 @@
-/* You can add global styles to this file, and also import other style files */
+body
+{
+  background-color: rgba(76, 161, 68, 0.715);
+  font: arial;
+}
+div
+{
+  font-size: 30px;
+  text-align:center;
+ 
+}
+nav {
+    display: flex;         /* Aliniază link-urile pe orizontală */
+    justify-content: center; /* Centrează meniul */
+    gap: 15px;            /* Spațiere între link-uri */
+    background-color: #222; /* Culoare de fundal pentru meniu */
+    padding: 10px;        /* Spațiere interioară */
+  }
+  
+  nav a {
+    text-decoration: none; /* Elimină sublinierea link-urilor */
+    color: white;          /* Culoare text */
+    font-size: 18px;       /* Dimensiune text */
+    padding: 10px 15px;    /* Spațiere interioară */
+    border: 2px solid white; /* Chenar alb */
+    border-radius: 5px;    /* Colțuri rotunjite */
+    transition: all 0.3s ease-in-out; /* Efect de tranziție */
+  }
+  
+  nav a:hover {
+    background-color: white; /* Fundal alb la hover */
+    color: #222;            /* Text închis la hover */
+    border-color: #222;     /* Schimbă culoarea chenarului */
+  }
+  
+  nav a.active {
+    background-color: #4CAF50; /* Evidențiază pagina activă */
+    color: white;
+    border-color: #4CAF50;
+  }
+  
+  

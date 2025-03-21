@@ -22,10 +22,10 @@ const routes: Routes = [
       Currency Converter
     </a>
     <a routerLink="/rates" routerLinkActive="active">
-      Exchange Rates
+      Exchange Rates 
     </a>
     <a routerLink="/about" routerLinkActive="active">
-      About
+      About 
     </a>
   </nav>
   <router-outlet></router-outlet>

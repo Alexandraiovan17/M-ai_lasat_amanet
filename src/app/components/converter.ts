@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
           class="form-control" 
           [(ngModel)]="amount" 
           (ngModelChange)="calculateExchange()"
+          style="width: 200px; height: 35px; font-size: 18px;"
         >
       </div>
 
@@ -28,6 +29,7 @@ import { CommonModule } from '@angular/common';
           class="form-control" 
           [(ngModel)]="fromCurrency"
           (ngModelChange)="calculateExchange()"
+          style="width: 200px; height: 35px; font-size: 18px;"
         >
           <option *ngFor="let currency of currencies" [value]="currency">
             {{currency}}
@@ -42,6 +44,7 @@ import { CommonModule } from '@angular/common';
           class="form-control" 
           [(ngModel)]="toCurrency"
           (ngModelChange)="calculateExchange()"
+          style="width: 200px; height: 35px; font-size: 18px;"
         >
           <option *ngFor="let currency of currencies" [value]="currency">
             {{currency}}
